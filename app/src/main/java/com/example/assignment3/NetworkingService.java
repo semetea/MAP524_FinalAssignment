@@ -1,5 +1,7 @@
 package com.example.assignment3;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -17,17 +19,22 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.Buffer;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class NetworkingService {
     String accessIdURL = "https://api.nexon.co.kr/fifaonline4/v1.0/users?nickname=";
     String rankURL = "https://api.nexon.co.kr/fifaonline4/v1.0/users/";
+    String marketHistory = "https://api.nexon.co.kr/fifaonline4/v1.0/users/";
+    String actionShotURL = "https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p";
     String API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJYLUFwcC1SYXRlLUxpbWl0IjoiNTAwOjEwIiwiYWNjb3VudF9pZCI6IjE2NzgwNDcwMjUiLCJhdXRoX2lkIjoiMiIsImV4cCI6MTY4NTM3MTA4MywiaWF0IjoxNjY5ODE5MDgzLCJuYmYiOjE2Njk4MTkwODMsInNlcnZpY2VfaWQiOiI0MzAwMTE0ODEiLCJ0b2tlbl90eXBlIjoiQWNjZXNzVG9rZW4ifQ.fx6SOCm2mWMlqI4zVjnQiG7LHOx0aamU7-9aXVz-Vqc";
 
     interface NetworkingListener {
         void connectionISDoneWithResult(JSONObject json) throws JSONException;
         void connectionIsDoneWithRank(String json);
+        void connectionIsDoneWithMarketHistory(String json);
+        void playerActionShotDownloadede(Bitmap img);
     }
 
     public NetworkingListener listener;
@@ -84,6 +91,75 @@ public class NetworkingService {
         });
     }
 
+    public void getMarketHistory(String accessId) {
+        String urlString = marketHistory + accessId + "/markets?tradetype=buy&offset=0&limit=10";
+        networkingExecutorService.execute(new Runnable() {
+            HttpURLConnection urlConnection;
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(urlString);
+                    urlConnection  = (HttpURLConnection)url.openConnection();
+                    urlConnection.setRequestProperty("Authorization", API_KEY);
+                    urlConnection.setRequestMethod("GET");
+                    urlConnection.setRequestProperty("Content-Type", "application/json");
+
+                    InputStream in = urlConnection.getInputStream();
+                    InputStreamReader reader = new InputStreamReader(in);
+                    int value = 0;
+                    String jsonString = "";
+                    while ( (value = reader.read()) != -1 ){
+                        char current = (char)value;
+                        jsonString+= current;
+                    }
+
+                    final String json = jsonString;
+                    newtworkingHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.connectionIsDoneWithMarketHistory(json);
+                        }
+                    });
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                finally {
+                    urlConnection.disconnect();
+                }
+            }
+        });
+    }
+
+    public void getPlayerImage(String spid) {
+        String urlString = actionShotURL + spid +".png";
+        networkingExecutorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(urlString);
+
+                    InputStream in = (InputStream) url.getContent();
+                    Bitmap imageData = BitmapFactory.decodeStream(in);
+                    newtworkingHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            listener.playerActionShotDownloadede(imageData);
+                        }
+                    });
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     public void connect(String urlstring){// general function for all connection
         networkingExecutorService.execute(new Runnable() {
             HttpURLConnection urlConnection;
@@ -96,7 +172,6 @@ public class NetworkingService {
                     urlConnection.setRequestProperty("Authorization", API_KEY);
                     urlConnection.setRequestMethod("GET");
                     urlConnection.setRequestProperty("Content-Type", "application/json");
-
 
                     InputStream in = urlConnection.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in, Charset.forName("UTF-8")));

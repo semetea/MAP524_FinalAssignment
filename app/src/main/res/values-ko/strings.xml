@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_new_user">유저 추가하기</string>
+    <string name="search_for_a_nickname">유저명 검색</string>
+    <string name="nick_name">유저명</string>
+    <string name="level">레벨</string>
+    <string name="trade_date">거래일자</string>
+    <string name="grade">강화단계</string>
+    <string name="history">거래기록</string>
+    <string name="rank">최고등급</string>
+    <string name="save">저장</string>
+    <string name="no">아니오</string>
+    <string name="yes">예</string>
+    <string name="yousure">\"정말로 \"</string>
+    <string name="db">\" 구단주를 저장하시겠습니까?\"</string>
+    <string name="achievementDate">\"달성일자: \"</string>
+    <string name="superChamp">최고등급: 슈퍼챔피언스</string>
+    <string name="champions">최고등급: 챔피언스</string>
+    <string name="challenger">최고등급: 챌린저</string>
+    <string name="superChanllenger">최고등급: 슈퍼 챌린저</string>
+    <string name="wordclass">최고등급: 월드클래스</string>
+    <string name="pro">최고등급: 프로</string>
+    <string name="semipro">최고등급: 세미프로</string>
+</resources>

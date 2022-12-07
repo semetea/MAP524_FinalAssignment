@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Assignment3</string>
+    <string name="app_name">FIFAONLINE4 APP</string>
     <string name="title_activity_rank_acitivity">RankAcitivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -9,4 +9,25 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="add_new_user">Add New User</string>
+    <string name="search_for_a_nickname">Search for a Nickname</string>
+    <string name="nick_name">Nick Name</string>
+    <string name="level">Level</string>
+    <string name="trade_date">Trade Date</string>
+    <string name="grade">GRADE</string>
+    <string name="history">History</string>
+    <string name="rank">Rank</string>
+    <string name="save">Save</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="yousure">\"Are you sure you want to save \"</string>
+    <string name="db">\" in your DB ??\"</string>
+    <string name="achievementDate">\"Achievement Date: \"</string>
+    <string name="superChamp">Highest Rank: Super Champions</string>
+    <string name="champions">Highest Rank: Champions</string>
+    <string name="challenger">Highest Rank: Challenger</string>
+    <string name="superChanllenger">Highest Rank: Super Challenger</string>
+    <string name="wordclass">Highest Rank: World Class</string>
+    <string name="pro">Highest Rank: Professional</string>
+    <string name="semipro">Highest Rank: Semi Professional</string>
 </resources>

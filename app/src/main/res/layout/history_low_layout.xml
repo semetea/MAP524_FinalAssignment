@@ -1,58 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MatchHistoryActivity">
+    android:layout_height="50dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <TextView
         android:id="@+id/tradeDate"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:text="@string/trade_date"
+        android:hint="@string/trade_date"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/spid"
-        app:layout_constraintBottom_toTopOf="@+id/historiesList"/>
+        app:layout_constraintEnd_toStartOf="@+id/spid"/>
 
     <TextView
         android:id="@+id/spid"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:text="SPID"
+        android:hint="SPID"
         android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@id/grade"
-        app:layout_constraintStart_toEndOf="@+id/tradeDate"
-        app:layout_constraintBottom_toTopOf="@+id/historiesList"/>
+        app:layout_constraintStart_toEndOf="@+id/tradeDate" />
     <TextView
         android:textSize="12sp"
         android:id="@+id/grade"
-        android:text="@string/grade"
+        android:hint="@string/grade"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintStart_toEndOf="@id/spid"
         app:layout_constraintEnd_toEndOf="@+id/bp"
-        app:layout_constraintBottom_toTopOf="@+id/historiesList"
         />
     <TextView
         android:id="@+id/bp"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:textSize="12sp"
-        android:text="BP"
         app:layout_constraintStart_toEndOf="@id/grade"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/historiesList"
         />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/historiesList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,6 @@
 
     <item android:id="@+id/searchbar"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
-        android:title="Search for a Nickname"
+        android:title="@string/search_for_a_nickname"
         app:showAsAction="always"/>
 </menu>

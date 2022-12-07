@@ -1,9 +1,12 @@
 package com.example.assignment3;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -22,14 +25,14 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements
-        NetworkingService.NetworkingListener {
+        NetworkingService.NetworkingListener,
+        DBManager.DataBaseListener {
 
     NetworkingService networkingService;
     User user;
     TextView nickname;
     TextView level;
-    Button rank;
-    Button history;
+    Button save;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +43,9 @@ public class MainActivity extends AppCompatActivity implements
         user = ((MyApp) getApplication()).user;
         nickname = findViewById(R.id.nickname);
         level = findViewById(R.id.level);
-        rank = findViewById(R.id.rank);
-        history = findViewById(R.id.history);
+        save = findViewById(R.id.save);
+        ((MyApp)getApplication()).dbManager.getDB(this);
+        ((MyApp)getApplication()).dbManager.listener = this;
     }
 
     @Override
@@ -73,13 +77,14 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
+
+
     @Override
     public void connectionISDoneWithResult(JSONObject json) throws JSONException {
         user = JsonService.getUserFromJsonOBject(json);
         nickname.setText(user.nickName);
         level.setText("Level: " + user.level.toString());
-        rank.setVisibility(View.VISIBLE);
-        history.setVisibility(View.VISIBLE);
+        save.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -87,18 +92,45 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-    public void onRankClicked(View view) {
-        Intent intent = new Intent(this, RankActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("accessId", user.accessId);
-        bundle.putString("nickName", user.nickName);
-        intent.putExtras(bundle);
+    @Override
+    public void connectionIsDoneWithMarketHistory(String json) {
 
-        startActivity(intent);
     }
 
-    public void onHistoryClicked(View view) {
-        Intent intent = new Intent(this, MatchHistoryActivity.class);
-        startActivity(intent);
+    @Override
+    public void playerActionShotDownloadede(Bitmap img) {
+
+    }
+
+    public void saveOnClicked(View view) {
+        showAlert(user);
+    }
+
+    void showAlert(User user){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.yousure)+ user.nickName + getString(R.string.db));
+        builder.setNegativeButton(R.string.no,null);
+        builder.setPositiveButton(R.string.yes,new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // save the city into db.
+                ((MyApp)getApplication()).dbManager.insertNewUserAsync(user);
+            }
+        });
+        builder.create().show();
+
+    }
+    @Override
+    public void insertingUserCompleted() {
+        finish();
+    }
+
+    @Override
+    public void gettingAllUsersCompleted(User[] u) {
+
+    }
+
+    @Override
+    public void deletingUserCompleted() {
+
     }
 }

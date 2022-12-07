@@ -2,6 +2,7 @@ package com.example.assignment3;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,29 +49,39 @@ public class RankActivity extends AppCompatActivity implements
     public void connectionIsDoneWithRank(String json) {
         userName.setText(nickName);
         Rank rank = JsonService.getdivisionFromJsonString(json);
-        date.setText("Achievement Date: " + rank.achievementDate.substring(0,9));
+        date.setText(getString(R.string.achievementDate) + rank.achievementDate.substring(0,9));
         if(rank.division == 800) {
             rankImage.setImageResource(R.drawable.superchamp);
-            rankName.setText("Highest Rank: Super Champions");
+            rankName.setText(R.string.superChamp);
         } else if(rank.division == 900) {
             rankImage.setImageResource(R.drawable.champions);
-            rankName.setText("Highest Rank: Champions");
+            rankName.setText(R.string.champions);
         } else if(rank.division == 1000) {
             rankImage.setImageResource(R.drawable.superchallenger);
-            rankName.setText("Highest Rank: Super Challenger");
+            rankName.setText(R.string.superChanllenger);
         } else if(rank.division >= 1100 && rank.division <= 1300) {
             rankImage.setImageResource(R.drawable.challenger);
-            rankName.setText("Highest Rank: Challenger");
+            rankName.setText(R.string.challenger);
         } else if(rank.division >= 2000 && rank.division <= 2200) {
             rankImage.setImageResource(R.drawable.worldclass);
-            rankName.setText("Highest Rank: World Class");
+            rankName.setText(R.string.wordclass);
         } else if(rank.division >= 2300 && rank.division <= 2500) {
             rankImage.setImageResource(R.drawable.pro);
-            rankName.setText("Highest Rank: Professional");
+            rankName.setText(R.string.pro);
         } else if(rank.division >= 2600 && rank.division <= 2800) {
             rankImage.setImageResource(R.drawable.semipro);
-            rankName.setText("Highest Rank: Semi Professional");
+            rankName.setText(R.string.semipro);
         }
+
+    }
+
+    @Override
+    public void connectionIsDoneWithMarketHistory(String json) {
+
+    }
+
+    @Override
+    public void playerActionShotDownloadede(Bitmap img) {
 
     }
 }
